@@ -6,6 +6,24 @@ public class Operadores {
 
 	private Double valor;
 	private Date data;
+	private TipoOperacao debito;
+	private TipoOperacao credito;
+
+	public TipoOperacao getDebito() {
+		return debito;
+	}
+
+	public void setDebito(TipoOperacao debito) {
+		this.debito = debito;
+	}
+
+	public TipoOperacao getCredito() {
+		return credito;
+	}
+
+	public void setCredito(TipoOperacao credito) {
+		this.credito = credito;
+	}
 
 	public Double getValor() {
 		return valor;
