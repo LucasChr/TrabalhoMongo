@@ -10,7 +10,8 @@
 
 <form action="CadastroServlet" method="post">
 	Para abrir uma conta entre com os seguintes dados:<br/>
-<br/>Número conta: <input type="text" name="numeroConta"/>
+<br/>Número conta: <input type="text" name="conta"/>
+<br/>Senha para conta: <input type="text" name="senha">
 <br/>Nome Completo: <input type="text" name="nome"/>
 <br/>CPF: <input type="text" name="cpf">
 <br/>Renda mensal: <input type="text" name="renda">

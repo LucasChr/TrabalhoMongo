@@ -7,6 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+
+import dao.ContaDAO;
+import dao.ContaDAOMongo;
+import model.Cliente;
+import model.Conta;
+
 @WebServlet("/CadastroServlet")
 public class CadastroServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +27,38 @@ public class CadastroServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		String numero = request.getParameter("conta");
+		String senha = request.getParameter("senha");
+		String nome = request.getParameter("nome");
+		String cpf = request.getParameter("cpf");
+		String renda = request.getParameter("renda");
+
+		if (numero.equals("") && nome.equals("") && cpf.equals("") && renda.equals("")) {
+			response.getWriter().append("Favor preencher todos os campos!!");
+		} else {
+			MongoClient mongo = new MongoClient();
+			DB db = mongo.getDB("contas");
+
+			ContaDAO contaDAO = new ContaDAOMongo(db);
+
+			Cliente cliente = new Cliente();
+			cliente.setNome(nome);
+			cliente.setCpf(Integer.valueOf(cpf));
+			cliente.setRenda(Double.valueOf(renda));
+
+			Conta conta2 = new Conta();
+			conta2.setNumero(Integer.valueOf(numero));
+			conta2.setCliente(cliente);
+			conta2.setSenha(senha);
+			conta2.setSaldo(Double.valueOf(renda));
+
+			contaDAO.inserir(conta2);
+
+			mongo.close();
+			response.getWriter().append("Cliente cadastrado com sucesso!");
+			response.sendRedirect("menu.jsp");
+		}
+
 	}
 
 }

@@ -7,14 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form action="OperadoresServlet" method="post">
 
-<form action="MainServlet" method="post">
-	Para acessar sua conta entre com:
-<br/>Número conta: <input type="text" name="conta"/>
-<br/>Senha: <input type="text" name="senha"/>
-<br/>Não possui conta? 
-<a href="cadastro.jsp">Cadastrar</a>
-<br/><input type="submit" value="Enviar">
+	<br/>Selecione uma operação e insira os calores:
+	<br/>
+	<br/>Crédito: <input type="radio" name="op" value="credito" checked>
+	Débito: <input type="radio" name="op" value="debito">
+	<br>Valor:<input type="text" name="valor">
+	<br>
+	<input type="submit" value="Enviar">
 </form>
 
 </body>

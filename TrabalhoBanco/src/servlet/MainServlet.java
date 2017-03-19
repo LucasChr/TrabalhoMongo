@@ -19,7 +19,17 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		String login = request.getParameter("conta");
+		String senha = request.getParameter("senha");
+
+		if (login.equals("") && senha.equals("")) {
+			response.getWriter().append("Dados inválidos!");
+		} else {
+			request.getSession().setAttribute("conta", login);
+			response.getWriter().append("Login efetuado com sucesso!");
+			response.sendRedirect("menu.jsp");
+		}
+
 	}
 
 }

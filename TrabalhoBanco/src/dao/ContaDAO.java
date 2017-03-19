@@ -5,6 +5,8 @@ import model.Conta;
 public interface ContaDAO {
 
 	void inserir(Conta conta);
-	
-	Conta porNumero(Long numero);
+
+	void update(Conta conta);
+
+	Conta getConta(String conta);
 }

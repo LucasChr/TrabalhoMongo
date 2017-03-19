@@ -17,7 +17,7 @@ public class ContaDAOMongo implements ContaDAO {
 
 	public MongoCollection conta() {
 		Jongo jongo = new Jongo(db);
-		return jongo.getCollection("conta");
+		return jongo.getCollection("contas");
 	}
 
 	@Override
@@ -26,8 +26,13 @@ public class ContaDAOMongo implements ContaDAO {
 	}
 
 	@Override
-	public Conta porNumero(Long numero) {
-		return conta().findOne("{conta: #}", numero).as(Conta.class);
+	public void update(Conta conta) {
+		conta().update("{numero: #}", conta.getNumero());
+	}
+
+	@Override
+	public Conta getConta(String conta) {
+		return conta().findOne("{numero: #}", conta).as(Conta.class);
 	}
 
 }

@@ -2,17 +2,17 @@ package model;
 
 public class Cliente {
 
-	private Integer codigo;
+	private Conta conta;
 	private String nome;
 	private Integer cpf;
 	private Double renda;
 
-	public Integer getCodigo() {
-		return codigo;
+	public Conta getConta() {
+		return conta;
 	}
 
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setConta(Conta codigo) {
+		this.conta = codigo;
 	}
 
 	public String getNome() {
