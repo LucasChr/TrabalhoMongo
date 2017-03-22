@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,15 +69,14 @@ public class OperadoresServlet extends HttpServlet {
 
 			contaNum.setSaldo(saldo);
 		} else if (op.equals("debito")) {
-			opr.setTipoOpr(String.valueOf(TipoOperacao.DEBITO));
-
-			saldo -= oprValor;
-
-			if (saldo < 0) {
-				response.getWriter().append("Saldo insuficiente");
+			if (saldo <= oprValor) {
+				//Mensagem de erro
+				RequestDispatcher dis = request.getRequestDispatcher("erroSaldo.jsp");
+				dis.forward(request, response);
 			} else {
+				saldo -= oprValor;
 				contaNum.setSaldo(saldo);
-
+				opr.setTipoOpr(String.valueOf(TipoOperacao.DEBITO));
 			}
 		}
 		// fazer lista de operacoes.
