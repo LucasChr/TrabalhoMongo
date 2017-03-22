@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import model.Conta;
 
 public interface ContaDAO {
@@ -8,5 +10,7 @@ public interface ContaDAO {
 
 	void update(Conta conta);
 
-	Conta getConta(String conta);
+	List<Conta> todos();
+
+	Conta getConta(Long conta);
 }

@@ -1,7 +1,11 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
+import org.jongo.MongoCursor;
 
 import com.mongodb.DB;
 
@@ -15,24 +19,32 @@ public class ContaDAOMongo implements ContaDAO {
 		this.db = db;
 	}
 
-	public MongoCollection conta() {
+	public MongoCollection contas() {
 		Jongo jongo = new Jongo(db);
 		return jongo.getCollection("contas");
 	}
 
 	@Override
 	public void inserir(Conta conta) {
-		conta().save(conta);
+		contas().save(conta);
 	}
 
 	@Override
 	public void update(Conta conta) {
-		conta().update("{numero: #}", conta.getNumero());
+		contas().update("{numero: #}", conta.getNumero()).with(conta);
 	}
 
 	@Override
-	public Conta getConta(String conta) {
-		return conta().findOne("{numero: #}", conta).as(Conta.class);
+	public Conta getConta(Long numero) {
+		return contas().findOne("{numero: #}", numero).as(Conta.class);
+	}
+
+	@Override
+	public List<Conta> todos() {
+		MongoCursor<Conta> cursorConta = contas().find().as(Conta.class);
+		List<Conta> contasList = new ArrayList<>();
+		cursorConta.forEach(conta -> contasList.add(conta));
+		return contasList;
 	}
 
 }

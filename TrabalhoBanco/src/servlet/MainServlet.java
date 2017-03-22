@@ -19,15 +19,15 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String login = request.getParameter("conta");
+		String conta = request.getParameter("conta");
 		String senha = request.getParameter("senha");
 
-		if (login.equals("") && senha.equals("")) {
+		if (conta.equals("") && senha.equals("")) {
 			response.getWriter().append("Dados inválidos!");
 		} else {
-			request.getSession().setAttribute("conta", login);
-			response.getWriter().append("Login efetuado com sucesso!");
-			response.sendRedirect("menu.jsp");
+			request.setAttribute("conta", conta);
+			
+			getServletContext().getRequestDispatcher("/menu.jsp").forward(request, response);
 		}
 
 	}

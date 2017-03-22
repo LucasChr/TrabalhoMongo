@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +17,7 @@ import dao.ContaDAO;
 import dao.ContaDAOMongo;
 import model.Cliente;
 import model.Conta;
+import model.Operacao;
 
 @WebServlet("/CadastroServlet")
 public class CadastroServlet extends HttpServlet {
@@ -46,17 +50,21 @@ public class CadastroServlet extends HttpServlet {
 			cliente.setCpf(Integer.valueOf(cpf));
 			cliente.setRenda(Double.valueOf(renda));
 
+			List<Operacao> operacoes = new ArrayList<>(); 			
 			Conta conta2 = new Conta();
 			conta2.setNumero(Integer.valueOf(numero));
 			conta2.setCliente(cliente);
 			conta2.setSenha(senha);
 			conta2.setSaldo(Double.valueOf(renda));
+			conta2.setOperacaoList(operacoes);
 
 			contaDAO.inserir(conta2);
 
 			mongo.close();
-			response.getWriter().append("Cliente cadastrado com sucesso!");
-			response.sendRedirect("menu.jsp");
+			
+			request.setAttribute("conta", conta2);
+			
+			getServletContext().getRequestDispatcher("/menu.jsp").forward(request, response);
 		}
 
 	}

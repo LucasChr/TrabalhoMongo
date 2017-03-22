@@ -1,8 +1,8 @@
 package servlet;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,45 +39,52 @@ public class OperadoresServlet extends HttpServlet {
 
 		String op = request.getParameter("op");
 		String valor = request.getParameter("valor");
-		String conta = request.getSession().getAttribute("conta").toString();
+		String numConta = request.getParameter("conta");
 
 		MongoClient mongo = new MongoClient();
 		DB db = mongo.getDB("contas");
 		ContaDAO dao = new ContaDAOMongo(db);
-		// Encontra a contra que a pessoa está utilizando
-		Conta contaNum = new Conta();
-		contaNum = dao.getConta(conta);
 
-		SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-		dt.format(new Date());
+		// Encontra a conta que a pessoa está utilizando
+		Long conta = Long.valueOf(numConta);
+		Conta contaNum = dao.getConta(conta);
+
+		Date data = new Date();
 
 		// auxiliar para calculo de saldo
-		Double saldo = 0.0;
+		Double saldo = contaNum.getSaldo();
+		Double oprValor = Double.valueOf(valor);
 		// Registra a operação realizada
 		Operacao opr = new Operacao();
 		opr.setValor(Double.valueOf(valor));
-		opr.setData(dt);
+		opr.setData(data);
 
 		if (op.equals("") || op == null) {
 			response.getWriter().append("Operação inválida! tente novamente");
-			response.sendRedirect("menu.jsp");
 		} else if (op.equals("credito")) {
 			// Utilizando o ENUM para definir como constante o nome da operação
 			opr.setTipoOpr(String.valueOf(TipoOperacao.CREDITO));
-			saldo += Double.valueOf(valor);
+			saldo += oprValor;
 
 			contaNum.setSaldo(saldo);
-			dao.update(contaNum);
 		} else if (op.equals("debito")) {
 			opr.setTipoOpr(String.valueOf(TipoOperacao.DEBITO));
 
-			saldo -= Double.valueOf(valor);
-			contaNum.setSaldo(saldo);
-			dao.update(contaNum);
-		}
+			saldo -= oprValor;
 
-		request.getSession().setAttribute("saldo", saldo);
-		response.sendRedirect("menu.jsp");
+			if (saldo < 0) {
+				response.getWriter().append("Saldo insuficiente");
+			} else {
+				contaNum.setSaldo(saldo);
+
+			}
+		}
+		// fazer lista de operacoes.
+		List<Operacao> contasList = contaNum.getOperacaoList();
+		contasList.add(opr);
+		contaNum.setOperacaoList(contasList);
+		dao.update(contaNum);
+		response.sendRedirect("index.jsp");
 
 	}
 

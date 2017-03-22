@@ -1,15 +1,12 @@
 package model;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class Operacao {
 
 	private Double valor;
-	private SimpleDateFormat data;
+	private Date data;
 	private String tipoOpr;
-	List<Operacao> operacaoList = new ArrayList<>();
 
 	public Double getValor() {
 		return valor;
@@ -19,11 +16,11 @@ public class Operacao {
 		this.valor = valor;
 	}
 
-	public SimpleDateFormat getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(SimpleDateFormat data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 
@@ -33,14 +30,6 @@ public class Operacao {
 
 	public void setTipoOpr(String tipoOpr) {
 		this.tipoOpr = tipoOpr;
-	}
-
-	public List<Operacao> getOperacaoList() {
-		return operacaoList;
-	}
-
-	public void setOperacaoList(List<Operacao> operacaoList) {
-		this.operacaoList = operacaoList;
 	}
 
 }
