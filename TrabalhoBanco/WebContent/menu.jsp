@@ -12,7 +12,7 @@
 		<%
 			String conta = (String) request.getAttribute("conta");
 		%>
-		Numero da conta: <input type="text" name="conta" value="<%= conta %>">
+		Numero da conta: <input type="text" name="conta" value="<%= conta %>" readonly="readonly">
 		<br />Selecione uma operação e insira os valores: <br /> 
 		<br />Crédito:<input type="radio" name="op" value="credito" checked> 
 		Débito:<input type="radio" name="op" value="debito"> 
