@@ -64,7 +64,7 @@ public class CadastroServlet extends HttpServlet {
 			
 			request.setAttribute("conta", conta2);
 			
-			getServletContext().getRequestDispatcher("/menu.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/cadastroSucesso.jsp").forward(request, response);
 		}
 
 	}

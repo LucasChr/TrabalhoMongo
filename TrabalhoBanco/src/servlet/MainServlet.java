@@ -44,6 +44,7 @@ public class MainServlet extends HttpServlet {
 		
 		if (nconta.equals(convConta) && lsenha.equals(senha)) {
 			request.setAttribute("conta", conta);
+			request.getSession().setAttribute("contaNum", convConta);
 			getServletContext().getRequestDispatcher("/menu.jsp").forward(request, response);
 		} else {
 			RequestDispatcher dis = request.getRequestDispatcher("erroLogin.jsp");

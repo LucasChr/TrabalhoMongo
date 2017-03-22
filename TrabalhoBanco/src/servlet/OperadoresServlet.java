@@ -52,31 +52,36 @@ public class OperadoresServlet extends HttpServlet {
 
 		Date data = new Date();
 
-		// auxiliar para calculo de saldo
-		Double saldo = contaNum.getSaldo();
-		Double oprValor = Double.valueOf(valor);
 		// Registra a operação realizada
 		Operacao opr = new Operacao();
-		opr.setValor(Double.valueOf(valor));
-		opr.setData(data);
+		if (valor.equals("")) {
+			RequestDispatcher dis = request.getRequestDispatcher("erroValor.jsp");
+			dis.forward(request, response);
+		} else {
+			// auxiliar para calculo de saldo
+			Double saldo = contaNum.getSaldo();
+			Double oprValor = Double.valueOf(valor);
 
-		if (op.equals("") || op == null) {
-			response.getWriter().append("Operação inválida! tente novamente");
-		} else if (op.equals("credito")) {
-			// Utilizando o ENUM para definir como constante o nome da operação
-			opr.setTipoOpr(String.valueOf(TipoOperacao.CREDITO));
-			saldo += oprValor;
+			opr.setValor(Double.valueOf(valor));
+			opr.setData(data);
 
-			contaNum.setSaldo(saldo);
-		} else if (op.equals("debito")) {
-			if (saldo <= oprValor) {
-				//Mensagem de erro
-				RequestDispatcher dis = request.getRequestDispatcher("erroSaldo.jsp");
-				dis.forward(request, response);
-			} else {
-				saldo -= oprValor;
+			if (op.equals("credito")) {
+				// Utilizando o ENUM para definir como constante o nome da
+				// operação
+				opr.setTipoOpr(String.valueOf(TipoOperacao.CREDITO));
+				saldo += oprValor;
+
 				contaNum.setSaldo(saldo);
-				opr.setTipoOpr(String.valueOf(TipoOperacao.DEBITO));
+			} else if (op.equals("debito")) {
+				if (saldo <= oprValor) {
+					// Mensagem de erro
+					RequestDispatcher dis = request.getRequestDispatcher("erroSaldo.jsp");
+					dis.forward(request, response);
+				} else {
+					saldo -= oprValor;
+					contaNum.setSaldo(saldo);
+					opr.setTipoOpr(String.valueOf(TipoOperacao.DEBITO));
+				}
 			}
 		}
 		// fazer lista de operacoes.
@@ -84,7 +89,7 @@ public class OperadoresServlet extends HttpServlet {
 		contasList.add(opr);
 		contaNum.setOperacaoList(contasList);
 		dao.update(contaNum);
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("sucesso.jsp");
 
 	}
 

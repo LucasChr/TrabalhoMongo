@@ -18,7 +18,8 @@
 		Débito:<input type="radio" name="op" value="debito"> 
 		
 		<br>Valor:<input type="text" name="valor"> 
-		<br> <input type="submit" value="Enviar">
+		<br> <input type="submit" value="Enviar"> 
+		<a href="ExtratoServlet">Extrato</a>
 	</form>
 
 </body>
