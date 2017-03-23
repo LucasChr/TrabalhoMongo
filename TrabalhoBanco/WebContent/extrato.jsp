@@ -1,6 +1,9 @@
+<%@page import="dao.ContaDAOMongo"%>
+<%@page import="dao.ContaDAO"%>
+<%@page import="model.Operacao"%>
+<%@page import="java.util.List"%>
 <%@page import="model.Conta"%>
 <%@page import="java.util.ArrayList"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -13,21 +16,18 @@
 <body>
 
 	<%
-		ArrayList<Conta> lista = (ArrayList<Conta>) request.getAttribute("extrato");
+		ArrayList<Operacao> lista = (ArrayList<Operacao>) request.getAttribute("extrato");
 	%>
-	
+	Extrato:  
+	<br/>
 	<%for(int i=0;i<lista.size(); i++) {%>
-		<br/> <%= lista.get(i) %>
+	<br/>		
+			Data: <%=lista.get(i).getData() %><br/>
+			Valor: <%=lista.get(i).getValor() %><br/>
+			Operação: <%=lista.get(i).getTipoOpr() %><br/>
+	
 	<%} %>
-
-	<table>
-		<tr>
-			<td>Conta</td>
-			<td>Valor</td>
-			<td>Operacao</td>
-		</tr>
-	</table>
-	<br />
+	
 	<a href="javascript:history.go(-1)">Voltar</a>
 </body>
 </html>

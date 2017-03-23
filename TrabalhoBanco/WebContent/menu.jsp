@@ -8,7 +8,6 @@
 </head>
 <body>
 	<form action="OperadoresServlet" method="post">
-
 		<%
 			String conta = (String) request.getAttribute("conta");
 		%>

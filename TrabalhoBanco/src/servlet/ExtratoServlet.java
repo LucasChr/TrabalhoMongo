@@ -31,15 +31,14 @@ public class ExtratoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Object numConta = request.getSession().getAttribute("contaNum");
+		String numConta = request.getSession().getAttribute("contaNum").toString();
 
 		MongoClient mongo = new MongoClient();
 		DB db = mongo.getDB("contas");
-
 		ContaDAO dao = new ContaDAOMongo(db);
 
 		// Encontra a conta que a pessoa está utilizando
-		Long conta = Long.valueOf(numConta.toString());
+		Long conta = Long.valueOf(numConta);
 		Conta contaNum = dao.getConta(conta);
 
 		List<Operacao> listaOpr = contaNum.getOperacaoList();
@@ -51,8 +50,21 @@ public class ExtratoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String numConta = request.getParameter("conta");
 
-		doGet(request, response);
+		MongoClient mongo = new MongoClient();
+		DB db = mongo.getDB("contas");
+		ContaDAO dao = new ContaDAOMongo(db);
+
+		// Encontra a conta que a pessoa está utilizando
+		Long conta = Long.valueOf(numConta);
+		Conta contaNum = dao.getConta(conta);
+
+		List<Operacao> listaOpr = contaNum.getOperacaoList();
+
+		mongo.close();
+		request.setAttribute("extrato", listaOpr);
+		getServletContext().getRequestDispatcher("/extrato.jsp").forward(request, response);
 	}
 
 }
